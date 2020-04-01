@@ -13,13 +13,11 @@ while (startTime <= endTime) {
     startTime.add(60, 'minutes');
 }
 
-
-
 //get data on refresh of page.  
 $(document).ready(function () {
     for (i = 0; i < timeStops.length; i++) {
-        console.log(timeStops[i]);
-        localStorage.getItem($("#description_" + timeStops[i]), "description" + timeStops[i])
+   var currentText = (localStorage.getItem("description" + timeStops[i]));
+        document.getElementById("description_" + timeStops[i]).value = currentText;  
     }
 });
 
@@ -27,7 +25,7 @@ $(document).ready(function () {
 $("body").on("click", ".saveBtn", function () {
     let buttonNumber = this.value;
       console.log(buttonNumber);
-    localStorage.setItem("description" + buttonNumber, buttonNumber)
+    localStorage.setItem( "description" + buttonNumber, document.getElementById("description_" + buttonNumber).value)
 })
 
 // function saveData
