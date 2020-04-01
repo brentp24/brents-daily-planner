@@ -13,21 +13,26 @@ while (startTime <= endTime) {
     startTime.add(60, 'minutes');
 }
 
-//get data
+
+
+//get data on refresh of page.  
 $(document).ready(function () {
-    let hour1Description = localStorage.getItem("description");
-    $(".description").val(hour1Description);
+    for (i = 0; i < timeStops.length; i++) {
+        console.log(timeStops[i]);
+        localStorage.getItem($("#description_" + timeStops[i]), "description" + timeStops[i])
+    }
 });
 
 // click Save button
-$(".saveBtn").click(function () {
-    saveData();
-});
+$("body").on("click", ".saveBtn", function () {
+    let buttonNumber = this.value;
+      console.log(buttonNumber);
+    localStorage.setItem("description" + buttonNumber, buttonNumber)
+})
 
 // function saveData
 function saveData() {
-    let enteredDescription = $("#description").val();
-    localStorage.setItem("description", enteredDescription)
+   
 }
 
 var largeBlock = $(".large-block");
@@ -36,38 +41,43 @@ function renderTimeBlocks() {
     for (i = 0; i < timeStops.length; i++) {
 
         // declare variables
-        var newTimeBlock = document.createElement("div");
-        var newRow = document.createElement("div");
-        var newHour = document.createElement("div");
-        var newDescription = document.createElement("input");
-        var newSaveBtn = document.createElement("div");
+        var newTimeBlock = $("<div/>").attr({
+            class: "time-block",
+        });
+        var newRow = $("<div/>").attr({
+            class: "row",
+        });
+        var newHour = $("<div/>").attr({
+            class: "hour",
+            id: "hour_" + timeStops[i]
+        });
+        var newDescription = $("<input/>").attr({
+            class: "description",
+            id: "description_" + timeStops[i]
+        });
+        var newSaveBtn = $("<button/>").attr({
+            class: "saveBtn fas fa-save",
+            id: "btn_" + timeStops[i],
+            value: timeStops[i],
+        })
+        //var newSaveBtn = document.createElement("button");
 
         // append elements
         largeBlock.append(newTimeBlock);
         newTimeBlock.append(newRow);
         newRow.append(newHour, newDescription, newSaveBtn);
-        $(newHour).append(timeStops[i]);
+        $(newHour).append(timeStops[i] + ":00");
 
-
-     // give classes
-        $(newTimeBlock).attr("class", "time-block");
-        $(newRow).attr("class", "row");
-        $(newHour).attr("class", "hour");
-        $(newDescription).attr("class","description");
-        $(newDescription).attr("id","description");
-        $(this).attr("id","description" + timeStops[i])
-        $(newSaveBtn).attr("class", "saveBtn fas fa-save");
-        $(newSaveBtn).attr("type", "button");
 
         //conditional classes
         if (currentTime > timeStops[i]) {
-           $(newDescription).attr("class","past");
-        } else if (currentTime === timeStops[i])  {
-            $(newDescription).attr("class","present");
-        } else {$(newDescription).attr("class","future")}
-            
+            $(newDescription).attr("class", "past");
+        } else if (currentTime === timeStops[i]) {
+            $(newDescription).attr("class", "present");
+        } else { $(newDescription).attr("class", "future") }
+
     }
 }
 
 renderTimeBlocks();
-console.log(currentTime)
+
