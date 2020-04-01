@@ -1,4 +1,5 @@
 
+var largeBlock = $(".large-block");
 //today's date
 let todayDate = moment().format('LL');
 let currentTime = moment().format("HH");
@@ -16,24 +17,16 @@ while (startTime <= endTime) {
 //get data on refresh of page.  
 $(document).ready(function () {
     for (i = 0; i < timeStops.length; i++) {
-   var currentText = (localStorage.getItem("description" + timeStops[i]));
-        document.getElementById("description_" + timeStops[i]).value = currentText;  
+        var currentText = (localStorage.getItem("description" + timeStops[i]));
+        document.getElementById("description_" + timeStops[i]).value = currentText;
     }
 });
 
 // click Save button
 $("body").on("click", ".saveBtn", function () {
     let buttonNumber = this.value;
-      console.log(buttonNumber);
-    localStorage.setItem( "description" + buttonNumber, document.getElementById("description_" + buttonNumber).value)
+    localStorage.setItem("description" + buttonNumber, document.getElementById("description_" + buttonNumber).value)
 })
-
-// function saveData
-function saveData() {
-   
-}
-
-var largeBlock = $(".large-block");
 
 function renderTimeBlocks() {
     for (i = 0; i < timeStops.length; i++) {
@@ -58,7 +51,6 @@ function renderTimeBlocks() {
             id: "btn_" + timeStops[i],
             value: timeStops[i],
         })
-        //var newSaveBtn = document.createElement("button");
 
         // append elements
         largeBlock.append(newTimeBlock);
